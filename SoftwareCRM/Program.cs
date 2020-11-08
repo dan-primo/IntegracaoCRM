@@ -58,7 +58,7 @@ namespace SoftwareCRM
             {
                 dynamic body = new JObject();
                 body.Title = "Negotiation";
-                body.ContactId = user;
+                body.ContactId = users;
                 body.Amount = 0;
                 body.StageId = 0;
 
