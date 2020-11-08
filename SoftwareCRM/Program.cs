@@ -12,19 +12,19 @@ namespace SoftwareCRM
         {
             api = new Api();
 
-            var user = CreateUser();
-            var negotiation = CreateNegotiation(user);
-            var task = CreateTask(negotiation);
+            var users = CreateUsers();
+            var negotiations = CreateNegotiations(users);
+            var tasks = CreateTasks(negotiations);
 
-            UpdateNegotiation(negotiation);
-            CloseTask(task);
-            Deal(negotiation);
-            Record(user);
+            UpdateNegotiations(negotiations);
+            CloseTasks(tasks);
+            Deals(negotiations);
+            Records(users);
 
             Console.ReadLine();
         }
 
-        private static int CreateUser()
+        private static int CreateUsers()
         {
             try
             {
@@ -38,10 +38,10 @@ namespace SoftwareCRM
                 body.Phones = JArray.FromObject(new[] 
                 { JObject.Parse(@"{PhoneNumber: '(30) 2517159', TypeId: 0, CountryId: 49}") });
 
-                string createClient = api.CreateClient(body);
+                string createClients = api.CreateClient(body);
                 Console.WriteLine("New user created successfully!");
 
-                dynamic obj = JsonConvert.DeserializeObject(createClient);
+                dynamic obj = JsonConvert.DeserializeObject(createClients);
                 return obj.value[0].Id;
             }
             catch (Exception e)
@@ -52,7 +52,7 @@ namespace SoftwareCRM
             return 0;
         }
 
-        private static int CreateNegotiation(int user = 0)
+        private static int CreateNegotiations(int users = 0)
         {
             try
             {
@@ -62,10 +62,10 @@ namespace SoftwareCRM
                 body.Amount = 0;
                 body.StageId = 0;
 
-                string createDeal = api.CreateDeal(body);
+                string createDeals = api.CreateDeal(body);
                 Console.WriteLine("Negotiation successfully created!");
 
-                dynamic obj = JsonConvert.DeserializeObject(createDeal);
+                dynamic obj = JsonConvert.DeserializeObject(createDeals);
                 return obj.value[0].Id;
             }
             catch(Exception e)
@@ -76,7 +76,7 @@ namespace SoftwareCRM
             return 0;
         }
 
-        private static int CreateTask(int negotiation = 0)
+        private static int CreateTasks(int negotiations = 0)
         {
             try
             {
@@ -86,12 +86,12 @@ namespace SoftwareCRM
                 body.DateTime = DateTime.Now.ToString("s");
                 body.EndTime = DateTime.Now.ToString("s");
                 body.ContactId = 0;
-                body.DealId = negotiation;
+                body.DealId = negotiations;
 
-                string createTask = api.CreateTask(body);
+                string createTasks = api.CreateTask(body);
                 Console.WriteLine("Task created successfully!");
 
-                dynamic obj = JsonConvert.DeserializeObject(createTask);
+                dynamic obj = JsonConvert.DeserializeObject(createTasks);
                 return obj.value[0].Id;
 
             }
@@ -103,14 +103,14 @@ namespace SoftwareCRM
             return 0;
         }
 
-        private static void UpdateNegotiation(int negotiation)
+        private static void UpdateNegotiations(int negotiations)
         {
             try
             {
                 dynamic body = new JObject();
                 body.Amount = 15000;
 
-                api.UpdateDeal(body, negotiation);
+                api.UpdateDeal(body, negotiations);
                 Console.WriteLine("Trading updated successfully!");
             }
             catch (Exception e)
@@ -119,11 +119,11 @@ namespace SoftwareCRM
             }
         }
         
-        private static void CloseTask(int task)
+        private static void CloseTasks(int tasks)
         {
             try
             {
-                api.FinishTask(task);
+                api.FinishTask(tasks);
                 Console.WriteLine("Task successfully closed!");
             }
             catch (Exception e)
@@ -132,11 +132,11 @@ namespace SoftwareCRM
             }
         }
         
-        private static void Deal(int negotiation)
+        private static void Deals(int negotiations)
         {
             try
             {
-                api.WinDeal(negotiation);
+                api.WinDeal(negotiations);
                 Console.WriteLine("Deal closed successfully!");
             }
             catch (Exception e)
@@ -145,12 +145,12 @@ namespace SoftwareCRM
             }
         }
 
-        private static void Record(int user)
+        private static void Records(int users)
         {
             try
             {
                 dynamic body = new JObject();
-                body.ContactId = user;
+                body.ContactId = users;
                 body.Content = "Deal closed successfully!";
                 body.Date = DateTime.Now.ToString("s");
 

@@ -10,7 +10,7 @@ namespace SoftwareCRM.API
     public class Api
     {
         private static HttpClient client = new HttpClient();
-        private string usrKey = "";
+        private string userKey = "";
 
         public Api()
         {
@@ -18,7 +18,7 @@ namespace SoftwareCRM.API
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Add("User-Key", usrKey);
+            client.DefaultRequestHeaders.Add("User-Key", userKey);
         }
 
         private string DoTask(Task<HttpResponseMessage> task)
