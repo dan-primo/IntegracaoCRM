@@ -10,7 +10,7 @@ namespace SoftwareCRM.API
     public class Api
     {
         private static HttpClient client = new HttpClient();
-        private string userKey = "";
+        private string userKey = "Insira aqui seu usuario de integração";
 
         public Api()
         {

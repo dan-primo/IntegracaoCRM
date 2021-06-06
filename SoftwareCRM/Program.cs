@@ -34,9 +34,10 @@ namespace SoftwareCRM
                 body.ZipCode = 10243;
                 body.CompanyId = null;
                 body.StreetAddressNumber = 3-100;
-                body.TypeId = 0;
+                body.TypeId = 1;
+                body.Register = 04473728000191; //como chegou na ploo: 44.737.280/0019-1
                 body.Phones = JArray.FromObject(new[] 
-                { JObject.Parse(@"{PhoneNumber: '(30) 2517159', TypeId: 0, CountryId: 49}") });
+                { JObject.Parse(@"{PhoneNumber: '(30) 2517159', TypeId: 1, CountryId: 49}") });
 
                 string createClients = api.CreateClient(body);
                 Console.WriteLine("New user created successfully!");
@@ -60,7 +61,7 @@ namespace SoftwareCRM
                 body.Title = "Negotiation";
                 body.ContactId = users;
                 body.Amount = 0;
-                body.StageId = 0;
+                body.StageId = 163205;
 
                 string createDeals = api.CreateDeal(body);
                 Console.WriteLine("Negotiation successfully created!");
